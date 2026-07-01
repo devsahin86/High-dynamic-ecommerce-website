@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — NEXUS</title>
+  <meta name="description" content="Get in touch with NEXUS. Contact our support team, visit our FAQ, or send us a message." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .contact-page { padding: 120px 0 80px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    /* Form */
+    .contact-form {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 40px;
+    }
+    .contact-form h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .contact-form > p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-dim);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--bg-alt);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--neon-cyan);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Info Cards */
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all 0.4s;
+    }
+    .contact-card:hover {
+      border-color: rgba(0,240,255,0.1);
+      transform: translateY(-4px);
+    }
+    .contact-card .icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: rgba(0,240,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .contact-card h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+    .contact-card p, .contact-card a {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .contact-card a {
+      display: block;
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .contact-card a:hover { color: var(--neon-cyan); }
+
+    /* FAQ */
+    .faq-section {
+      padding: 80px 0;
+    }
+    .faq-list {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .faq-item:hover {
+      border-color: rgba(0,240,255,0.08);
+    }
+    .faq-question {
+      width: 100%;
+      padding: 18px 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      gap: 16px;
+    }
+    .faq-question .arrow {
+      font-size: 1.2rem;
+      color: var(--neon-cyan);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-question .arrow {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding: 0 24px 18px;
+    }
+    .faq-answer p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* Features on Contact */
+    .features-mini {
+      padding: 60px 0;
+    }
+
+    @media (max-width: 1024px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .contact-form { padding: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+  <div id="cursor-glow"></div>
+
+  <nav id="navbar">
+    <a href="index.html" class="logo">NEXUS</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="products.html">Products</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html" class="active">Contact</a>
+      <button class="cart-btn-nav" onclick="toggleCart()">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span class="empty-icon">🛒</span>
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="total-amount" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Checkout →</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span class="toast-message" id="toastMessage">Added to cart!</span>
+  </div>
+
+  <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Get in <span>Touch</span></h1>
+      <p>Have a question? We'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-page">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Form -->
+        <div class="contact-form reveal">
+          <h3>Send us a message</h3>
+          <p>We'll get back to you within 24 hours.</p>
+          <form onsubmit="event.preventDefault(); showToast('Message sent! We\'ll be in touch soon.'); this.reset();">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" placeholder="John Doe" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="john@example.com" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject">
+                <option>General Inquiry</option>
+                <option>Order Support</option>
+                <option>Returns & Exchanges</option>
+                <option>Wholesale</option>
+                <option>Partnership</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="How can we help you?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message →</button>
+          </form>
+        </div>
+
+        <!-- Info -->
+        <div class="contact-info reveal">
+          <div class="contact-card">
+            <div class="icon">📧</div>
+            <div>
+              <h4>Email</h4>
+              <a href="mailto:support@nexus.com">support@nexus.com</a>
+              <a href="mailto:press@nexus.com">press@nexus.com</a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="icon">📞</div>
+            <div>
+              <h4>Phone</h4>
+              <p>+1 (555) 123-4567</p>
+              <p>Mon–Fri, 9am – 6pm EST</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="icon">📍</div>
+            <div>
+              <h4>Location</h4>
+              <p>NEXUS Headquarters<br />200 Innovation Drive, Suite 400<br />San Francisco, CA 94105</p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="icon">⏰</div>
+            <div>
+              <h4>Business Hours</h4>
+              <p>Monday – Friday: 9:00 AM – 6:00 PM EST</p>
+              <p>Saturday: 10:00 AM – 4:00 PM EST</p>
+              <p>Sunday: Closed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-mini">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Why Choose <span class="highlight">NEXUS</span></h2>
+        <p>We go beyond the ordinary</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon">🚀</div>
+          <h3>Free Shipping</h3>
+          <p>On all orders over $50</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔒</div>
+          <h3>Secure Payment</h3>
+          <p>256-bit encrypted checkout</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">↩️</div>
+          <h3>30-Day Returns</h3>
+          <p>No questions asked</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">💬</div>
+          <h3>24/7 Support</h3>
+          <p>Always here to help</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+        <p>Everything you need to know</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What is your shipping policy?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>We offer free standard shipping on all orders over $50. Express shipping is available for an additional fee. Orders are processed within 1-2 business days and typically arrive within 3-7 business days domestically.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            How do I return a product?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>You have 30 days from delivery to return any item in its original condition. Simply initiate a return through your account or contact our support team. We'll provide a prepaid shipping label.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Do you ship internationally?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes! We ship to over 50 countries worldwide. International delivery typically takes 7-14 business days. Duties and taxes may apply depending on your location.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            What payment methods do you accept?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>We accept Visa, Mastercard, American Express, PayPal, Apple Pay, and Google Pay. All transactions are encrypted and secure.</p>
+          </div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-question" onclick="toggleFAQ(this)">
+            Can I track my order?
+            <span class="arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Absolutely. Once your order ships, you'll receive a tracking number via email. You can also track your order anytime through your account dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">NEXUS</div>
+          <p>Premium e-commerce for the modern world. Quality products, exceptional service.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="products.html">Products</a>
+          <a href="shop.html">Shop</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <a href="products.html?cat=electronics">Electronics</a>
+          <a href="products.html?cat=fashion">Fashion</a>
+          <a href="products.html?cat=home">Home</a>
+          <a href="products.html?cat=accessories">Accessories</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="contact.html">Contact</a>
+          <a href="#">FAQ</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 NEXUS. All rights reserved.</span>
+        <span>Designed with ✦</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function toggleFAQ(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

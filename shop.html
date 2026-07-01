@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — NEXUS</title>
+  <meta name="description" content="Exclusive deals, limited editions, and premium collections at NEXUS Shop." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .shop-page { padding: 120px 0 80px; }
+
+    .shop-banner {
+      background: linear-gradient(135deg, rgba(0,240,255,0.04), rgba(179,0,255,0.04));
+      border: 1px solid rgba(0,240,255,0.06);
+      border-radius: 24px;
+      padding: 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 60px;
+    }
+    .shop-banner::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,240,255,0.04) 0%, transparent 70%);
+      top: -150px; right: -150px;
+    }
+    .shop-banner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .shop-banner h2 span {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .shop-banner p {
+      color: var(--text-dim);
+      margin-bottom: 24px;
+      font-size: 1rem;
+    }
+    .shop-banner .banner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .shop-banner .banner-grid img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: transform 0.4s;
+    }
+    .shop-banner .banner-grid img:hover {
+      transform: scale(1.03);
+      border-color: rgba(0,240,255,0.1);
+    }
+
+    .deal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .deal-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+    }
+    .deal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .deal-card:hover::before { opacity: 1; }
+    .deal-card:hover {
+      border-color: rgba(0,240,255,0.1);
+      transform: translateY(-6px);
+    }
+    .deal-card .discount {
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .deal-card h3 { font-size: 1.1rem; font-weight: 700; margin: 8px 0; }
+    .deal-card p { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 20px; }
+    .deal-card .code {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(0,240,255,0.06);
+      border: 1px dashed rgba(0,240,255,0.2);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      letter-spacing: 2px;
+      font-family: monospace;
+      margin-bottom: 16px;
+    }
+
+    .price-range {
+      padding: 60px 0;
+    }
+    .range-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .range-card {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .range-card:hover {
+      border-color: rgba(0,240,255,0.15);
+      transform: translateY(-4px);
+    }
+    .range-card .range-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+    .range-card h3 { font-size: 1rem; font-weight: 600; }
+    .range-card p { font-size: 0.8rem; color: var(--text-dim); margin-top: 4px; }
+
+    .limited-section {
+      padding: 60px 0;
+    }
+    .limited-banner {
+      background: linear-gradient(135deg, rgba(179,0,255,0.06), rgba(255,0,170,0.04));
+      border: 1px solid rgba(179,0,255,0.1);
+      border-radius: 24px;
+      padding: 50px;
+      text-align: center;
+    }
+    .limited-banner h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .limited-banner h2 span {
+      background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .limited-banner p { color: var(--text-dim); margin-bottom: 24px; }
+    .limited-banner .countdown {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .limited-banner .countdown .unit {
+      text-align: center;
+    }
+    .limited-banner .countdown .num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .limited-banner .countdown .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 1024px) {
+      .shop-banner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .shop-banner { padding: 32px 24px; }
+      .shop-banner .banner-grid { grid-template-columns: 1fr 1fr; }
+      .shop-banner .banner-grid img { height: 100px; }
+      .limited-banner { padding: 32px 20px; }
+      .limited-banner .countdown { gap: 12px; }
+      .limited-banner .countdown .num { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+  <div id="cursor-glow"></div>
+
+  <nav id="navbar">
+    <a href="index.html" class="logo">NEXUS</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="products.html">Products</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="contact.html">Contact</a>
+      <button class="cart-btn-nav" onclick="toggleCart()">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span class="empty-icon">🛒</span>
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="total-amount" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Checkout →</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span class="toast-message" id="toastMessage">Added to cart!</span>
+  </div>
+
+  <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>NEXUS <span>Shop</span></h1>
+      <p>Exclusive deals, limited drops, and premium collections.</p>
+    </div>
+  </section>
+
+  <!-- Shop Banner -->
+  <section class="shop-page">
+    <div class="container">
+      <div class="shop-banner reveal">
+        <div>
+          <h2>Premium <span>Collections</span></h2>
+          <p>Explore our curated collections with exclusive deals and fast worldwide shipping. New drops every week.</p>
+          <a href="products.html" class="btn btn-primary">Browse All →</a>
+        </div>
+        <div class="banner-grid">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&q=80" alt="Product" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&q=80" alt="Product" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80" alt="Product" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&q=80" alt="Product" loading="lazy" />
+        </div>
+      </div>
+
+      <!-- Active Deals -->
+      <div class="section-header reveal">
+        <h2>Active <span class="highlight">Deals</span></h2>
+        <p>Limited-time offers you don't want to miss</p>
+      </div>
+      <div class="deal-grid">
+        <div class="deal-card reveal">
+          <div class="discount">20% OFF</div>
+          <h3>Electronics Sale</h3>
+          <p>On headphones, speakers, and smart accessories.</p>
+          <div class="code">NEXUS20</div>
+          <a href="products.html?cat=electronics" class="btn btn-outline btn-sm">Shop Electronics</a>
+        </div>
+        <div class="deal-card reveal">
+          <div class="discount">15% OFF</div>
+          <h3>Fashion Drop</h3>
+          <p>New season styles. Premium fabrics, timeless designs.</p>
+          <div class="code">STYLE15</div>
+          <a href="products.html?cat=fashion" class="btn btn-outline btn-sm">Shop Fashion</a>
+        </div>
+        <div class="deal-card reveal">
+          <div class="discount">25% OFF</div>
+          <h3>Home Collection</h3>
+          <p>Smart lamps, diffusers, and modern living essentials.</p>
+          <div class="code">HOME25</div>
+          <a href="products.html?cat=home" class="btn btn-outline btn-sm">Shop Home</a>
+        </div>
+        <div class="deal-card reveal">
+          <div class="discount">Buy 2, Get 1</div>
+          <h3>Accessories Deal</h3>
+          <p>Watches, backpacks, sunglasses — mix & match.</p>
+          <div class="code">B2G1FREE</div>
+          <a href="products.html?cat=accessories" class="btn btn-outline btn-sm">Shop Accessories</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Limited Edition -->
+  <section class="limited-section">
+    <div class="container">
+      <div class="limited-banner reveal">
+        <h2>⚡ Limited <span>Edition</span> Drop</h2>
+        <p>Exclusive products available for a limited time only. Once they're gone, they're gone.</p>
+        <div class="countdown" id="countdown">
+          <div class="unit">
+            <div class="num" id="cd-days">07</div>
+            <div class="label">Days</div>
+          </div>
+          <div class="unit">
+            <div class="num" id="cd-hours">12</div>
+            <div class="label">Hours</div>
+          </div>
+          <div class="unit">
+            <div class="num" id="cd-mins">45</div>
+            <div class="label">Mins</div>
+          </div>
+          <div class="unit">
+            <div class="num" id="cd-secs">30</div>
+            <div class="label">Secs</div>
+          </div>
+        </div>
+        <a href="products.html" class="btn btn-primary">Shop Limited Edition →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop by Price -->
+  <section class="price-range">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Shop by <span class="highlight">Price</span></h2>
+        <p>Find products in your budget</p>
+      </div>
+      <div class="range-grid">
+        <a href="products.html" class="range-card reveal">
+          <span class="range-icon">💎</span>
+          <h3>Under $50</h3>
+          <p>Affordable essentials</p>
+        </a>
+        <a href="products.html" class="range-card reveal">
+          <span class="range-icon">✨</span>
+          <h3>$50 – $150</h3>
+          <p>Everyday premium</p>
+        </a>
+        <a href="products.html" class="range-card reveal">
+          <span class="range-icon">🔥</span>
+          <h3>$150 – $300</h3>
+          <p>High-end picks</p>
+        </a>
+        <a href="products.html" class="range-card reveal">
+          <span class="range-icon">👑</span>
+          <h3>$300+</h3>
+          <p>Luxury collection</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2>Best <span class="highlight">Sellers</span></h2>
+        <p>Our most popular products this month</p>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">NEXUS</div>
+          <p>Premium e-commerce for the modern world. Quality products, exceptional service.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="products.html">Products</a>
+          <a href="shop.html">Shop</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <a href="products.html?cat=electronics">Electronics</a>
+          <a href="products.html?cat=fashion">Fashion</a>
+          <a href="products.html?cat=home">Home</a>
+          <a href="products.html?cat=accessories">Accessories</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="contact.html">Contact</a>
+          <a href="#">FAQ</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 NEXUS. All rights reserved.</span>
+        <span>Designed with ✦</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Countdown timer
+    function startCountdown() {
+      const end = new Date();
+      end.setDate(end.getDate() + 7);
+      end.setHours(12, 45, 30);
+
+      function tick() {
+        const now = new Date();
+        const diff = Math.max(0, end - now);
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / (1000 * 60)) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+        document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+        document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+        document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProductGrid('productGrid', products.filter(p => p.badge));
+      startCountdown();
+    });
+  </script>
+</body>
+</html>

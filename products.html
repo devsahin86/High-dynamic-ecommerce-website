@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products — NEXUS</title>
+  <meta name="description" content="Browse our full catalog of premium products. Electronics, fashion, home goods, and accessories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .products-page {
+      padding: 120px 0 80px;
+    }
+
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 10px 24px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+    .filter-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      border-color: transparent;
+      color: #fff;
+    }
+
+    .search-bar {
+      max-width: 480px;
+      margin: 0 auto 32px;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .search-bar input:focus {
+      border-color: var(--neon-cyan);
+    }
+    .search-bar input::placeholder { color: var(--text-muted); }
+    .search-bar .search-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+    }
+    .no-results .icon { font-size: 3rem; display: block; margin-bottom: 16px; }
+    .no-results h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text); }
+    .no-results p { font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .filter-bar { gap: 8px; }
+      .filter-btn { padding: 8px 18px; font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particles"></canvas>
+  <div id="cursor-glow"></div>
+
+  <nav id="navbar">
+    <a href="index.html" class="logo">NEXUS</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+      <button class="cart-btn-nav" onclick="toggleCart()">
+        Cart <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-panel" id="cartPanel">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="cart-close" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <span class="empty-icon">🛒</span>
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none;">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="total-amount" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Checkout →</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-icon">✓</span>
+    <span class="toast-message" id="toastMessage">Added to cart!</span>
+  </div>
+
+  <a href="#" class="back-to-top" aria-label="Back to top">↑</a>
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Our <span>Products</span></h1>
+      <p>Browse our full catalog — curated for quality, designed for life.</p>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products-page">
+    <div class="container">
+      <!-- Search -->
+      <div class="search-bar reveal">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()" />
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar reveal">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+        <button class="filter-btn" data-filter="electronics" onclick="setFilter('electronics')">Electronics</button>
+        <button class="filter-btn" data-filter="fashion" onclick="setFilter('fashion')">Fashion</button>
+        <button class="filter-btn" data-filter="home" onclick="setFilter('home')">Home</button>
+        <button class="filter-btn" data-filter="accessories" onclick="setFilter('accessories')">Accessories</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="product-grid" id="productGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">NEXUS</div>
+          <p>Premium e-commerce for the modern world. Quality products, exceptional service.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter">𝕏</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="YouTube">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="products.html">Products</a>
+          <a href="shop.html">Shop</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <a href="products.html?cat=electronics">Electronics</a>
+          <a href="products.html?cat=fashion">Fashion</a>
+          <a href="products.html?cat=home">Home</a>
+          <a href="products.html?cat=accessories">Accessories</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="contact.html">Contact</a>
+          <a href="#">FAQ</a>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 NEXUS. All rights reserved.</span>
+        <span>Designed with ✦</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let activeFilter = 'all';
+
+    function setFilter(cat) {
+      activeFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === cat);
+      });
+      filterProducts();
+    }
+
+    function filterProducts() {
+      const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+      let filtered = products;
+
+      if (activeFilter !== 'all') {
+        filtered = filtered.filter(p => p.category === activeFilter);
+      }
+
+      if (search) {
+        filtered = filtered.filter(p =>
+          p.name.toLowerCase().includes(search) ||
+          p.desc.toLowerCase().includes(search) ||
+          p.category.toLowerCase().includes(search)
+        );
+      }
+
+      const grid = document.getElementById('productGrid');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="no-results" style="grid-column:1/-1;">
+            <span class="icon">🔍</span>
+            <h3>No products found</h3>
+            <p>Try adjusting your search or filter criteria.</p>
+          </div>
+        `;
+        return;
+      }
+
+      renderProductGrid('productGrid', filtered);
+    }
+
+    // Read URL param for initial category filter
+    function initFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('cat');
+      if (cat) {
+        setFilter(cat);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProductGrid('productGrid', products);
+      initFromURL();
+    });
+  </script>
+</body>
+</html>
